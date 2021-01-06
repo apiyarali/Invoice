@@ -1,0 +1,30 @@
+{% extends "invoice/layout.html" %}
+
+{% block body %}
+    
+    <div class="container">
+
+        <h2>Your Profile</h2>
+        <br>
+
+        {% if message %}
+            <div class="alert alert-danger" role="alert">{{ message }}</div>
+        {% endif %}
+
+        <form action="{% url 'profile' %}" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group row">
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 col-form-label">{{ field.label }}</label>
+                    <div class="col-sm-10">
+                        {{ field.errors }}
+                        {{ field }}
+                        {{ field.help_text }}
+                    </div>
+                </div>
+            {% endfor %}
+            <input class="btn btn-primary" type="submit" value="Update">
+        </form>
+    </div>
+
+{% endblock %}

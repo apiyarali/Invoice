@@ -1,0 +1,30 @@
+{% extends "invoice/layout.html" %}
+
+{% block body %}
+
+    <div class="container">
+
+        <h2>Login</h2>
+        <br>
+
+        {% if message %}
+            <div class="alert alert-danger" role="alert">{{ message }}</div>
+        {% endif %}
+        
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="inputEmail">Email address</label>
+                <input type="email" class="form-control" id="inputEmail" name="email" aria-describedby="emailHelp" placeholder="Enter email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Password</label>
+                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password">
+            </div>
+            <input class="btn btn-primary" type="submit" value="Login">
+        </form>
+        <br>
+        <span>Don't have an account? </span><a href="{% url 'register' %}">Register here.</a>
+    </div>
+
+{% endblock %}

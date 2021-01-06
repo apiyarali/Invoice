@@ -1,0 +1,154 @@
+{% extends "invoice/layout.html" %}
+
+{% block body %}
+
+    <div class="container">
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div id="invoice-view-message", class="alert alert-danger" role="alert" style="display:none;"></div>
+
+        <div class="row m-auto">
+            <div class="col-sm-12">
+                <h1 class="mr-3 text-xl-right text-md-left">INVOICE</h1>   
+            </div>
+        </div>
+        <hr>
+        <div class="row m-auto text-left">
+
+            {% comment %} Customer {% endcomment %}
+            <div class="col-sm text-left">
+                <h6>Invoice to:</h6>
+                <div class="card-body text-left">
+                    {% if invoice.customer.organization is None or not invoice.customer.organization.strip %}
+                        <h2 class="card-title">{{ invoice.customer.full_name }}</h2>
+                        <h5 class="card-title"></h5>
+                    {% else %}
+                        <h2 class="card-title">{{ invoice.customer.organization }}</h2>
+                        <h5 class="card-title">{{ invoice.customer.full_name|default_if_none:"" }}</h5>
+                    {% endif %}
+                    <p class="card-text">
+                        {% if invoice.customer.address2 is None or not invoice.customer.address2.strip %}
+                            {{ invoice.customer.address1|default_if_none:"" }}<br>     
+                        {% else %}
+                            {{ invoice.customer.address2}} - {{ invoice.customer.address1|default_if_none:"" }}<br>
+                        {% endif %}
+                            {{ invoice.customer.city|default_if_none:"" }} 
+                            {{ invoice.customer.province|default_if_none:"" }} 
+                            {{ invoice.customer.zipCode|default_if_none:"" }}<br>
+                            {{ invoice.customer.country|default_if_none:"" }}
+                    </p>
+                    <p class="card-text">
+                        {{ invoice.customer.email|default_if_none:"" }}<br>
+                        {{ invoice.customer.phone|default_if_none:"" }}
+                    </p>
+                </div>
+            </div>
+
+            {% comment %} User {% endcomment %}
+            <div class="col-sm text-left">
+                <h6>From:</h6>
+                <div class="card-body text-left">
+                    <h2 class="card-title">{{ organization }}</h2>
+                    <h5 class="card-title">{{ user.get_full_name }}</h5>
+                    <p class="card-text">
+                        {% if profile.address2 is None or not profile.address2.strip %}
+                            {{ profile.address1|default_if_none:"" }}<br>     
+                        {% else %}
+                            {{ profile.address2}} - {{ profile.address1|default_if_none:"" }}<br>
+                        {% endif %}
+                            {{ profile.city|default_if_none:"" }} 
+                            {{ profile.province|default_if_none:"" }} 
+                            {{ profile.zipCode|default_if_none:"" }}<br>
+                            {{ profile.country|default_if_none:"" }}
+                    </p>
+                    <p class="card-text">
+                        {{ user.email }}<br>
+                        {{ profile.phone|default_if_none:"" }}
+                    </p>
+                </div>
+            </div>
+
+            {% comment %} Dates {% endcomment %}
+            <div class="col-sm-3 text-left">
+                <div class="card-body text-left">
+                    <p class="card-text"><b>Invoice Number: </b>{{ invoice.id }}</p>
+                    <p class="card-text"><b>Invoice Date:</b><br>{{ invoice.created }}</p>
+                    <p class="card-text"><b>Due Date:</b><br>{{ invoice.dueDate }}</p>
+                    <p class="card-text"><b>Paid Date:</b></p>
+                    {% if invoice.paidDate is None %}
+                        <form action="{% url 'invoice_view' invoice.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="date" id="paid-date" name="paid-date", min="{{ minDate }}" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="btn btn-success" type="Submit" value="PAID">
+                            </div>
+                        </form>
+                    {% else %}
+                        <p class="card-text">{{ invoice.paidDate }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+
+        {% comment %} Line Items {% endcomment %}
+        <table class="table table-responsive-md">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Product Description</th>
+                    <th>Rate</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody id="invoice-view-items">
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.product.productName }}</td>
+                        <td>{{ item.product.productDescription|default_if_none:"" }}</td>
+                        <td class="text-left">{{ item.product.rate }}</td>
+                        <td>{{ item.qty }}</td>
+                        <td class="text-left">{{ item.price }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <hr>
+
+        {% comment %} Marking as Paid {% endcomment %}
+        <div class="row m-auto">
+            <div class="col-sm-6">
+                {% if invoice.paidDate is not None %}
+                    <div class="alert alert-success text-xl-center text-md-left" role="alert">
+                        <h1>PAID</h1>
+                    </div> 
+                {% endif %}
+            </div>
+
+            {% comment %} Invoice Total {% endcomment %}
+            <div class="col-sm-6">
+                <h4 id="invoice-view-total" class="mr-3 text-md-right text-sm-left">Total: {{ invoice.invoiceTotal }}</h4>   
+            </div>
+        </div>
+        <br>
+        <hr>
+
+        {% comment %} PDF {% endcomment %}
+        <div class="row m-auto">
+            <div class="col-sm-12">
+                <a class="btn btn-primary" href="{% url 'pdf' invoice.id %}">PDF</a>   
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

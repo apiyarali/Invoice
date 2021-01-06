@@ -1,0 +1,68 @@
+{% extends "invoice/layout.html" %}
+
+{% block body %}
+    
+    <div class="container-fluid">
+    
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="alert alert-info" role="alert">
+            <h6 class="h6">To create an invoice, select a <a href="{% url 'customer' %}">customer</a>.</h6>
+        </div>
+        <hr>
+        <br>
+        <table class="table table-responsive-md table-hover">
+            <thead>
+                <tr>
+                    <th>Invoice</th>
+                    <th>Customer</th>
+                    <th>Company</th>
+                    <th class="text-left">Total</th>
+                    <th>Due Date</th>
+                    <th>Paid Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in invoices %}
+                    <tr data-link="{% url 'invoice_view' invoice.id %}" 
+                        class="{% if invoice.paidDate is not None %} table-success {% endif %}" >
+                        <td>
+                            <a href="{% url 'invoice_view' invoice.id %}"> 
+                                {{ invoice.id }}
+                            </a>
+                        </td>
+                        <td> 
+                            <a class="btn-link" href="{% url 'invoice_view' invoice.id %}">
+                                {{ invoice.customer.full_name|default_if_none:"" }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn-link" href="{% url 'invoice_view' invoice.id %}">
+                                {{ invoice.customer.organization|default_if_none:"" }}
+                            </a>
+                        </td>
+                        <td class="text-left">
+                            <a class="btn-link" href="{% url 'invoice_view' invoice.id %}">
+                                {{ invoice.invoiceTotal }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn-link" href="{% url 'invoice_view' invoice.id %}">
+                                {{ invoice.dueDate }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn-link" href="{% url 'invoice_view' invoice.id %}">
+                                {{ invoice.paidDate|default_if_none:"" }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+{% endblock %}

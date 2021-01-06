@@ -1,0 +1,6 @@
+secret.py
+secret.cpython-39.pyc
+invoice/__pycache__/
+pay/__pycache__/
+invoice/migrations/__pycache__/
+db.sqlite3

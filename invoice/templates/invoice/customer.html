@@ -1,0 +1,56 @@
+{% extends "invoice/layout.html" %}
+
+{% block body %}
+    
+    <div class="container">
+        
+        <a href="{% url 'add_customer' %}" class="btn btn-outline-primary m-3">Add Customer</a>
+        <hr>
+
+        <h2>Customers</h2>
+        <br>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="input-group mb-5">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="search-customer"><i class="fa fa-search"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Search by Name or Company" id="customer-search" onkeyup="customerSearch()" 
+                    ="Search" aria-describedby="search-customer">
+        </div>
+
+        <div class="row mt-4" id="customer-list">
+            {% for customer in customers %}
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <h5 class="card-header">{{ customer.firstName|default_if_none:"" }} {{ customer.lastName|default_if_none:"" }}</h5>
+                        <div class="card-body">
+                            <p class="card-text company-search">Company: {{ customer.organization|default_if_none:"" }}</p>
+                            <p class="card-text">Phone: {{ customer.phone|default_if_none:"" }}</p>
+                            <p class="card-text">Email: {{ customer.email|default_if_none:"" }}</p>
+                            <p class="card-text">
+                                Address:<br>
+                                {% if customer.address2 is None or not customer.address2.strip %}
+                                    {{ customer.address1|default_if_none:"" }}<br>     
+                                {% else %}
+                                    {{ customer.address2}} - {{ customer.address1|default_if_none:"" }}<br>
+                                {% endif %}
+                                {{ customer.city|default_if_none:"" }} {{ customer.province|default_if_none:"" }} 
+                                {{ customer.zipCode|default_if_none:"" }}<br>
+                                {{ customer.country|default_if_none:"" }}
+                            </p>
+                            <a href="{% url 'invoice_form' customer.id %}" class="btn btn-outline-primary mr-3">Create Invoice</a>
+                            <a href="{% url 'edit_customer' customer.id %}" class="btn btn-outline-info">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
