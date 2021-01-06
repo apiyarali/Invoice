@@ -5,3 +5,5 @@ Users can add their own profile and client profile which will show on the invoic
 Users can also add products which will allow users to select product from dropdown list when creating an invoice.
 
 The app also allows converting invoices into PDF for sending to customers and marking invoice as paid when customer has paid.
+
+Please make migrations (python manage.py makemigrations) before running the app. To access the admin panel create superuser (python manage.py createsuperuser).
