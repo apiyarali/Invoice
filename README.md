@@ -6,4 +6,4 @@ Users can also add products which will allow users to select product from dropdo
 
 The app also allows converting invoices into PDF for sending to customers and marking invoice as paid when customer has paid.
 
-Before running the app, make migrations (python manage.py makemigrations). To access the admin panel create superuser (python manage.py createsuperuser).
+Before running the app, make migrations (python manage.py makemigrations) and add your Django secret key under settings. To access the admin panel create superuser (python manage.py createsuperuser).
