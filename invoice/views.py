@@ -1,9 +1,11 @@
 import json
 import pytz
 import pdfkit
+from django.contrib.auth.password_validation import *
 from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import IntegrityError
@@ -56,6 +58,7 @@ def logout_view(request):
     return HttpResponseRedirect(reverse("index"))
 
 def register(request):
+
     if request.method == "POST":
         
         # Get form data
@@ -65,15 +68,25 @@ def register(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
 
+        try:
+            validate_password(password, user=None, password_validators=None)
+        except ValidationError as val_err:
+            error_message = "<ul>\n"
+            error_message += "\n".join(["<li>" + str(message) + "</li>" for message in val_err.messages])
+            error_message += "\n</ul>"
+            return render(request,"invoice/register.html",{
+                "message":f"{error_message}"
+            })
+
         # Ensure password match
         if password != confirmation:
             return render(request, "invoice/register.html", {
                 "message": "Passwords must match."
             })
-        
+
         # Create new user
         try:
-            user = User.objects.create_user(email, email, password, first_name=firstName, last_name=lastName)
+            user = User.objects.create_user(email, password, first_name=firstName, last_name=lastName)
             user.save()
         except IntegrityError:
             return render(request, "invoice/register.html", {
@@ -83,7 +96,7 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "invoice/register.html")
-        
+
 @login_required(login_url="login")
 def profile(request):
 
