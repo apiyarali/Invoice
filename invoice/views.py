@@ -67,8 +67,10 @@ def register(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
 
+        # Password Validaiton (minmum length, common password, numeric password, user attribute similarity)
+        passwordValidateUser = User(username=email, first_name=firstName, last_name=lastName)
         try:
-            validate_password(password, user=None, password_validators=None)
+            validate_password(password, user=passwordValidateUser, password_validators=None)
         except ValidationError as val_err:
             error_message = "<ul>\n"
             error_message += "\n".join(["<li>" + str(message) + "</li>" for message in val_err.messages])
