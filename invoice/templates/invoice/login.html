@@ -7,9 +7,7 @@
         <h2>Login</h2>
         <br>
 
-        {% if message %}
-            <div class="alert alert-danger" role="alert">{{ message }}</div>
-        {% endif %}
+        {% include 'invoice/message_snippet.html' %}
         
         <form action="{% url 'login' %}" method="post">
             {% csrf_token %}

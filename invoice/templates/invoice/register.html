@@ -6,10 +6,8 @@
 
         <h2>Register</h2>
 
-        {% if message %}
-            <div class="alert alert-danger" role="alert">{{ message|safe }}</div>
-        {% endif %}
-        
+        {% include 'invoice/message_snippet.html' %}
+
         <form action="{% url 'register' %}" method="post">
             {% csrf_token %}
             <div class="form-group row">

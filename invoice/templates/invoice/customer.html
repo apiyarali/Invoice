@@ -10,11 +10,7 @@
         <h2>Customers</h2>
         <br>
 
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-danger" role="alert">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
+        {% include 'invoice/message_snippet.html' %}
 
         <div class="input-group mb-5">
             <div class="input-group-prepend">

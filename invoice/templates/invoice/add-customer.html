@@ -7,9 +7,7 @@
         <h2>Customer Details</h2>
         <br>
 
-        {% if message %}
-            <div class="alert alert-danger" role="alert">{{ message }}</div>
-        {% endif %}
+        {% include 'invoice/message_snippet.html' %}
 
         <form action="{% url 'add_customer' %}" method="post">
             {% csrf_token %}

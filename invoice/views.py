@@ -46,9 +46,8 @@ def login_view(request):
             return redirect("index")
             # return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "invoice/login.html", {
-                "message": "Invalid email and/or password."
-            })  
+            messages.error(request, "Invalid email and/or password.")
+            return render(request, "invoice/login.html")  
     else:
         return render(request, "invoice/login.html")
 
@@ -77,15 +76,15 @@ def register(request):
             error_message = "<ul>\n"
             error_message += "\n".join(["<li>" + str(message) + "</li>" for message in val_err.messages])
             error_message += "\n</ul>"
+            messages.error(request,error_message)
             return render(request,"invoice/register.html",{
-                "message":f"{error_message}",
                 "list": password_validation_list
             })
 
         # Ensure password match
         if password != confirmation:
+            messages.error(request,"Passwords must match.")
             return render(request, "invoice/register.html", {
-                "message": "Passwords must match.",
                 "list": password_validation_list
             })
 
@@ -94,8 +93,8 @@ def register(request):
             user = User.objects.create_user(email, password, first_name=firstName, last_name=lastName)
             user.save()
         except IntegrityError:
+            messages.error(request,f"User with email {email} already exist.")
             return render(request, "invoice/register.html", {
-                "message": f"User with email {email} already exist.",
                 "list": password_validation_list
             })
         login(request, user)
