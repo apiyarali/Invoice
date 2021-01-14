@@ -58,6 +58,8 @@ def logout_view(request):
 
 def register(request):
 
+    password_validation_list = password_validators_help_text_html(password_validators=None)
+
     if request.method == "POST":
         
         # Get form data
@@ -76,13 +78,15 @@ def register(request):
             error_message += "\n".join(["<li>" + str(message) + "</li>" for message in val_err.messages])
             error_message += "\n</ul>"
             return render(request,"invoice/register.html",{
-                "message":f"{error_message}"
+                "message":f"{error_message}",
+                "list": password_validation_list
             })
 
         # Ensure password match
         if password != confirmation:
             return render(request, "invoice/register.html", {
-                "message": "Passwords must match."
+                "message": "Passwords must match.",
+                "list": password_validation_list
             })
 
         # Create new user
@@ -91,12 +95,15 @@ def register(request):
             user.save()
         except IntegrityError:
             return render(request, "invoice/register.html", {
-                "message": f"User with email {email} already exist."
+                "message": f"User with email {email} already exist.",
+                "list": password_validation_list
             })
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "invoice/register.html")
+        return render(request, "invoice/register.html", {
+            "list": password_validation_list
+        })
 
 @login_required(login_url="login")
 def profile(request):
