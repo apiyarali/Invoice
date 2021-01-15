@@ -6,4 +6,17 @@ Users can also add products which will allow users to select products from the d
 
 The app also allows converting invoices into PDF for emailing it to customers and marking invoices as paid when customer has paid.
 
-Before running the app, make migrations (python manage.py makemigrations) and add your Django secret key under settings. To access the admin panel create superuser (python manage.py createsuperuser).
+Before running the app:
+* Add your Django secret key under settings.py
+* Make migrations (python manage.py makemigrations)
+* Migrate (python manage.py migrate)
+* Create superuser (python manage.py createsuperuser)
+* For Google sign-in:
+    * Set up Google OAuth Credentials and API from https://console.developers.google.com/
+    * Log-in to Django app admin
+    * Under Sites add your Domain and Display name
+    * Under Social applicaitons:
+        * Provider: Google
+        * Name: Google API
+        * Client id: your id from Google OAuth Credentials
+        * Secret key: your secrete key from Google Oauth Credentials
