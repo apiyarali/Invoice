@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
@@ -16,5 +16,6 @@ urlpatterns = [
     path("add-product", views.add_product, name="add_product"),
     path("create-invoice", views.create_invoice, name="create_invoice"),
     path("invoice/<int:inv_id>", views.invoice_view, name="invoice_view"),
-    path("pdf/<int:inv_id>", views.pdf, name="pdf")
+    path("pdf/<int:inv_id>", views.pdf, name="pdf"),
+    path('accounts/', include('allauth.urls')) # django all-auth
 ]

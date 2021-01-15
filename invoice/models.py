@@ -2,9 +2,18 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from datetime import datetime
 from decimal import Decimal
+from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 
 class User(AbstractUser):
     pass
+
+# If sign-in from social account, make the username equal to email
+class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
+
+    def populate_user(self, request, sociallogin, data):
+        user = super().populate_user(request, sociallogin, data)
+        user.username = user.email
+        return user
 
 class AbstractAddressModel(models.Model):
     phone = models.CharField("Phone Number", max_length=255, blank=True)

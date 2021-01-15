@@ -1,4 +1,5 @@
 {% extends "invoice/layout.html" %}
+{% load socialaccount %}
 
 {% block body %}
 
@@ -20,6 +21,14 @@
                 <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password">
             </div>
             <input class="btn btn-primary" type="submit" value="Login">
+            
+            <!-- Google Log-in button code snippet taken from  
+            https://www.w3schools.com/howto/howto_css_social_login.asp -->
+            <br>
+            <br>
+            <a href="{% provider_login_url 'google' %}" class="btn btn-danger">
+                <i class="fa fa-google"></i>    Sign in with <b>Google</b>
+            </a>
         </form>
         <br>
         <span>Don't have an account? </span><a href="{% url 'register' %}">Register here.</a>

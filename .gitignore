@@ -4,3 +4,4 @@ invoice/__pycache__/
 pay/__pycache__/
 invoice/migrations/__pycache__/
 db.sqlite3
+google_Oauth.txt
