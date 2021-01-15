@@ -17,18 +17,6 @@ class BaseForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
 
-# User Register Form
-# class RegisterForm(forms.BaseForm):
-#     class Meta:
-#         model = User
-#         fields=["firstName", "lastName", "Email", "password1", "password2"]
-#         widgets = {
-#             "firstName": forms.TextInput(attrs={"placeholder":"First Name"}),
-#             "lastName": forms.TextInput(attrs={"placeholder":"Last Name"}),
-#             "email": forms.EmailInput(attrs={"placeholder":"Email Address", "pattern":"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"}),
-#         }
-
-
 # Address form templete to be use for profile and customer forms
 class AbstractAddressForm(BaseForm):
     class Meta:
