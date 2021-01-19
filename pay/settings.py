@@ -134,9 +134,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# #######################
+# #################################################
+# 
 # django-allauth
-# #######################
+# https://django-allauth.readthedocs.io/en/latest/
+# 
+# #################################################
 
 AUTHENTICATION_BACKENDS = (
  'django.contrib.auth.backends.ModelBackend',
@@ -158,9 +161,7 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_AUTHENTICATION_METHOD = 'email' # Make username = email
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
-
-SOCIALACCOUNT_ADAPTER = "invoice.models.CustomSocialAccountAdapter"
+ACCOUNT_USERNAME_REQUIRED = False # Do not get social account username i.e., google, facebook, etc.
