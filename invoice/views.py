@@ -356,54 +356,7 @@ def invoice_view(request, inv_id):
         "organization": util.getOrganization(request.user),
         "minDate": minDate
     })
-
-# ####################################################################################
-# xhtml2pdf
-# 
-# Code Snippet taken from: 
-# https://www.codingforentrepreneurs.com/blog/html-template-to-pdf-in-django
-# 
-# ####################################################################################
-# @login_required(login_url="login")
-# def pdf(request, inv_id):
-
-#     profile = get_object_or_404(Profile, user=request.user)
-#     items = Item.objects.filter(invoice=inv_id)
-
-#     # Check if inovice exists
-#     try:
-#         invoice = Invoice.objects.get(id=inv_id)
-#     except:
-#         messages.error(request, "Invoice doesn't exist")
-#         return redirect("index")
-
-#     # Ensure invoice being accessed was created by logged in user
-#     if invoice.user != request.user:
-#         messages.error(request, "Not authorize to view this invoice")
-#         return redirect("index")   
-
-#     template = get_template('invoice/invoiceViewPDF.html')
-
-#     context = {
-#         "items": items,
-#         "profile": profile,
-#         "invoice": invoice,
-#         "organization": util.getOrganization(request.user),
-#         "paidDate": invoice.paidDate
-#     }
-
-#     # html = template.render(context)
-#     pdf = util.render_to_pdf('invoice/invoiceViewPDF.html',context)
-#     if pdf:
-#         response = HttpResponse(pdf, content_type='applicaiton/pdf')
-#         filename = "Invoice_%s.pdf" %(invoice.id)
-#         content = "inline; filename=%s" %(filename)
-#         response['Content-Disposition'] = content
-#         return response
-#         # download = request.GET.get("download")
-#         # return response
-#     return HttpResponse("Not found")
-
+    
 # ####################################################################################
 # WeasyPrint (https://weasyprint.readthedocs.io/en/stable/tutorial.html#quickstart)
 # 
