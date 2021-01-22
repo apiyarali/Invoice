@@ -188,7 +188,12 @@ def edit_customer(request, cust_id):
 # Invoice Form (doesn't create invoice)
 @login_required(login_url="login")
 def invoice_form(request, cust_id):
-    profile = get_object_or_404(Profile, user=request.user)
+    # Check if profile exists.
+    try:
+        profile = get_object_or_404(Profile, user=request.user)
+    except:
+        messages.error(request, "Your Profile must completed before creating an invoice.")
+        return redirect("profile")
 
     # Check if customer exists
     try:
