@@ -1,6 +1,6 @@
 import json
-import pytz
-import pdfkit
+import pytz #for timezones
+
 from django.contrib.auth.password_validation import *
 from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
@@ -15,11 +15,15 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from datetime import datetime
-
+from django.template.loader import render_to_string #require for pdf printing
 
 from .models import User, Customer, Invoice, Profile, AbstractAddressModel, Product, Item
 from . import forms, util
 
+# WeasyPrint
+from weasyprint import HTML
+import tempfile
+from weasyprint.fonts import FontConfiguration
 
 def index(request):
     if not request.user.is_authenticated:
@@ -353,24 +357,111 @@ def invoice_view(request, inv_id):
         "minDate": minDate
     })
 
-# Generate PDF
-# Code snippet for this is taken form:
-# https://ourcodeworld.com/articles/read/241/how-to-create-a-pdf-from-html-in-django
-# This function require installing pdfkit (pip install pdfkit) and 
-# wkhtmltopdf (https://wkhtmltopdf.org/downloads.html) or ($ sudo apt-get install wkhtmltopdf)
+# ####################################################################################
+# xhtml2pdf
+# 
+# Code Snippet taken from: 
+# https://www.codingforentrepreneurs.com/blog/html-template-to-pdf-in-django
+# 
+# ####################################################################################
+# @login_required(login_url="login")
+# def pdf(request, inv_id):
+
+#     profile = get_object_or_404(Profile, user=request.user)
+#     items = Item.objects.filter(invoice=inv_id)
+
+#     # Check if inovice exists
+#     try:
+#         invoice = Invoice.objects.get(id=inv_id)
+#     except:
+#         messages.error(request, "Invoice doesn't exist")
+#         return redirect("index")
+
+#     # Ensure invoice being accessed was created by logged in user
+#     if invoice.user != request.user:
+#         messages.error(request, "Not authorize to view this invoice")
+#         return redirect("index")   
+
+#     template = get_template('invoice/invoiceViewPDF.html')
+
+#     context = {
+#         "items": items,
+#         "profile": profile,
+#         "invoice": invoice,
+#         "organization": util.getOrganization(request.user),
+#         "paidDate": invoice.paidDate
+#     }
+
+#     # html = template.render(context)
+#     pdf = util.render_to_pdf('invoice/invoiceViewPDF.html',context)
+#     if pdf:
+#         response = HttpResponse(pdf, content_type='applicaiton/pdf')
+#         filename = "Invoice_%s.pdf" %(invoice.id)
+#         content = "inline; filename=%s" %(filename)
+#         response['Content-Disposition'] = content
+#         return response
+#         # download = request.GET.get("download")
+#         # return response
+#     return HttpResponse("Not found")
+
+# ####################################################################################
+# WeasyPrint (https://weasyprint.readthedocs.io/en/stable/tutorial.html#quickstart)
+# 
+# Code Snippet taken from: 
+# https://www.bedjango.com/blog/how-generate-pdf-django-weasyprint/  and
+# https://djangotricks.blogspot.com/2019/
+# ####################################################################################
+
 @login_required(login_url="login")
 def pdf(request, inv_id):
 
-    options = {
-        'cookie': [('sessionid', request.COOKIES['sessionid'])],
-        }
+    # Model Data
+    profile = get_object_or_404(Profile, user=request.user)
+    items = Item.objects.filter(invoice=inv_id)
 
-    # Create a URL of our project and go to the template route
-    projectUrl = request.get_host() + reverse("invoice_view", args=[inv_id])
-    pdf = pdfkit.from_url(projectUrl, False , options=options)
+    # Check if inovice exists
+    try:
+        invoice = Invoice.objects.get(id=inv_id)
+    except:
+        messages.error(request, "Invoice doesn't exist")
+        return redirect("index")
 
-    # Generate download
-    response = HttpResponse(pdf,content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
+    # Ensure invoice being accessed was created by logged in user
+    if invoice.user != request.user:
+        messages.error(request, "Not authorize to view this invoice")
+        return redirect("index")   
+
+    # Rendered
+    context = {
+        "items": items,
+        "profile": profile,
+        "invoice": invoice,
+        "organization": util.getOrganization(request.user),
+        "paidDate": invoice.paidDate,
+        "userName": request.user.get_full_name,
+        "userEmail": request.user.email
+    }
+
+    # Generating PDF file
+    html_string = render_to_string('invoice/invoiceViewPDF.html',context)
+    font_config = FontConfiguration()
+    html = HTML(string=html_string)
+    result = html.write_pdf(font_config=font_config)
+
+    # Creating http response
+    response = HttpResponse(content_type='application/pdf;')
+    filename = "Invoice_%s.pdf" %(invoice.id)
+    response['Content-Disposition'] = 'inline; filename=%s' %(filename)
+    response['Content-Transfer-Encoding'] = 'binary'
+    with tempfile.NamedTemporaryFile(delete=True) as output:
+        output.write(result)
+        output.flush()
+
+        # changed "output = open(output.name, 'r')"" as per
+        # https://stackoverflow.com/questions/64479603/permissionerror-at-generate-pdf-errno-13-permission-denied-weasyprint
+        # due to library error
+        output.seek(0)
+
+        response.write(output.read())
 
     return response
