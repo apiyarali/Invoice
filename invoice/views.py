@@ -162,8 +162,12 @@ def add_customer(request):
 # Edit Customer Data
 @login_required(login_url="login")
 def edit_customer(request, cust_id):
-    customer = get_object_or_404(Customer, id=cust_id)
-
+    try:
+        customer = get_object_or_404(Customer, id=cust_id)
+    except:
+        messages.error(request, "Customer doesn't exists")
+        return redirect("customer")
+    
     # Check if customer was added by the logged in user
     if request.user != customer.user:
         messages.error(request, "Not authorize to edit this customer")
@@ -397,7 +401,7 @@ def pdf(request, inv_id):
         "organization": util.getOrganization(request.user),
         "paidDate": invoice.paidDate,
         "userName": request.user.get_full_name,
-        "userEmail": request.user.email
+        "userEmail": request.user.email,
     }
 
     # Generating PDF file

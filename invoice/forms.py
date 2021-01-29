@@ -2,6 +2,8 @@ from django import forms
 from django.forms import ModelForm
 from .models import User, Customer, Invoice, Profile, AbstractAddressModel, Product
 
+from django_countries.widgets import CountrySelectWidget
+
 # Reference / code-snippet for BaseForm taken from :
 # https://riptutorial.com/django-forms/example/27777/add-custom-css-classes
 # modified as needed
@@ -30,8 +32,11 @@ class AbstractAddressForm(BaseForm):
             "city": forms.TextInput(attrs={"placeholder":"City"}),
             "province": forms.TextInput(attrs={"placeholder":"State/Province"}),
             "zipCode": forms.TextInput(attrs={"placeholder":"Zip/Postal Code"}),
-            "country": forms.TextInput(attrs={"placeholder":"Country"})
+            # "country": forms.TextInput(attrs={"placeholder":"Country"})
+            # "country": forms.ChoiceField(widget=widgets.CountrySelectWidget, choices=countries,attrs={"placeholder":"Country"})
+            "country": CountrySelectWidget(attrs={"placeholder":"Country"})
         }
+    
 
 class ProfileForm(AbstractAddressForm):
     class Meta:

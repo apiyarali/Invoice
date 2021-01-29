@@ -78,7 +78,10 @@
                         <label for="due-date">Due date:</label>
                         <input type="date" id="due-date" min="{{ minDate }}" name="due-date" required>
                     </p>
-                </div>
+                    <br>
+                    {% comment %} Save {% endcomment %}
+                    <button id="invoice-save" type="button" onclick="saveInvoice(event)" class="btn btn-primary" data-customer="{{ customer.id }}">Save</button>
+                </div>    
             </div>
         </div>
         <hr>

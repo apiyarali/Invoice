@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'invoice',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,15 +41,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # ##################
     # django-allauth
-    # ##################
-
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+
+    # django_countries
+    'django_countries'
 ]
 
 MIDDLEWARE = [
@@ -135,12 +136,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# #################################################
-# 
 # django-allauth
 # https://django-allauth.readthedocs.io/en/latest/
-# 
-# #################################################
 
 AUTHENTICATION_BACKENDS = (
  'django.contrib.auth.backends.ModelBackend',
@@ -177,3 +174,4 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+

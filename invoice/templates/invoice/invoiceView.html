@@ -10,9 +10,19 @@
 
         <div class="row m-auto">
             <div class="col-sm-12">
-                <h1 class="mr-3 text-xl-right text-md-left">INVOICE</h1>   
+                
+                {% comment %} Marking as Paid {% endcomment %}
+
+                {% if invoice.paidDate is not None %}
+                    <h1 class="mr-3 text-xl-right text-md-left">INVOICE
+                        <span class="badge badge-success">Paid</span>
+                    </h1>
+                {% else %}
+                    <h1 class="mr-3 text-xl-right text-md-left">INVOICE</h1>
+                {% endif %}    
             </div>
         </div>
+        
         <hr>
         <div class="row m-auto text-left">
 
@@ -89,6 +99,9 @@
                     {% else %}
                         <p class="card-text">{{ invoice.paidDate }}</p>
                     {% endif %}
+
+                    {% comment %} PDF {% endcomment %}
+                    <a class="btn btn-primary" href="{% url 'pdf' invoice.id %}">PDF</a>
                 </div>
             </div>
         </div>

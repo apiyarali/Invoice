@@ -4,6 +4,8 @@ from datetime import datetime
 from decimal import Decimal
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 
+from django_countries.fields import CountryField
+
 class User(AbstractUser):
     pass
 
@@ -23,7 +25,8 @@ class AbstractAddressModel(models.Model):
     city = models.CharField("City", max_length=255, blank=True)
     province = models.CharField("Province/State", max_length=255, blank=True)
     zipCode = models.CharField("Zip/Postal Code", max_length=255, blank=True)
-    country = models.CharField("Country", max_length=255, blank=True)
+    # country = models.CharField("Country", max_length=255, blank=True)
+    country = CountryField()
     created = models.DateTimeField(default=datetime.now(), blank=True)
 
     class Meta:
