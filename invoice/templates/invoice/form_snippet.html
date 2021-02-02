@@ -6,8 +6,9 @@
             {{ field.errors }}
             {{ field }}
             <br>
+            <br>
             {{ field.help_text }}
         </div>
     </div>
 {% endfor %}
-<input class="btn btn-primary" type="submit" value="Save">
+<input class="btn btn-primary" type="submit" value = "{{ val|default:'Save' }}">

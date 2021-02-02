@@ -1,5 +1,6 @@
 from django.urls import path, include, re_path
 from django.views.generic import RedirectView
+from django.contrib.auth import views as auth_views # Password Reset
 
 from . import views
 
@@ -18,6 +19,23 @@ urlpatterns = [
     path("create-invoice", views.create_invoice, name="create_invoice"),
     path("invoice/<int:inv_id>", views.invoice_view, name="invoice_view"),
     path("pdf/<int:inv_id>", views.pdf, name="pdf"),
+
+    # Password Reset
+    path("password-reset", 
+        auth_views.PasswordResetView.as_view(template_name="invoice/password_reset.html"), 
+        name="password_reset"),
+    
+    path("password-reset/done/", 
+        auth_views.PasswordResetDoneView.as_view(template_name="invoice/password_reset_done.html"), 
+        name="password_reset_done"),
+
+    path('password-reset-confirm/<uidb64>/<token>/',
+        auth_views.PasswordResetConfirmView.as_view(template_name='invoice/password_reset_confirm.html'),
+        name='password_reset_confirm'),
+
+    path('password-reset-complete/',
+        auth_views.PasswordResetCompleteView.as_view(template_name='invoice/password_reset_complete.html'),
+        name='password_reset_complete'),
 
     # django all-auth
 
