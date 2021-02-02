@@ -20,3 +20,16 @@ Before running the app:
         * Name: Google API
         * Client id: your id from Google OAuth Credentials
         * Secret key: your secrete key from Google Oauth Credentials
+* For sending password reset email using Gmail:
+    * Go to http://myaccount.google.com/apppasswords
+    * Under "Select the app and device..." option, click on the Select app dropdown and select "Other (Custom name)"
+    * Enter the name of the app or any reference name.
+    * Click Generate
+    * Under settings.py, scroll to the email section:
+        * Remove: "from . gmailUser import *"
+            * Replace with: EMAIL_HOST_USER = 'YOUR EMAIL ADDRESS'
+            * **_It is highly recommended that the email address should be stored in operating system environment variable, if thats the case then replace with: EMAIL_HOST_USER = on.eniron.get('EMAIL_USER')_**
+        * Remove: "from . gmailPass import *"
+            * Replace with: EMAIL_HOST_PASSWORD = 'YOUR GENERATED PASSWORD'
+            * **_It is highly recommended that the password should be stored in operating system environment variable, if thats the case then replace with: EMAIL_HOST_PASSWORD = on.eniron.get('EMAIL_PASS')_**
+
