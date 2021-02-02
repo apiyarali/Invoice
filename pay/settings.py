@@ -96,7 +96,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'invoice.user'
+AUTH_USER_MODEL = 'invoice.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -158,6 +158,8 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+SOCIALACCOUNT_ADAPTER = "invoice.models.CustomSocialAccountAdapter"
 
 ACCOUNT_AUTHENTICATION_METHOD = 'email' # Make username = email
 ACCOUNT_EMAIL_REQUIRED = True

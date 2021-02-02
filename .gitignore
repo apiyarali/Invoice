@@ -3,5 +3,9 @@ secret.cpython-39.pyc
 invoice/__pycache__/
 pay/__pycache__/
 invoice/migrations/__pycache__/
+invoice/migrations/
 db.sqlite3
 google_Oauth.txt
+gmailPass.py
+gmailUser.py
+

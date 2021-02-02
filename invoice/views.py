@@ -46,7 +46,7 @@ def login_view(request):
 
         # Authenticate user
         if user is not None:
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect("index")
             # return HttpResponseRedirect(reverse("index"))
         else:
@@ -94,14 +94,14 @@ def register(request):
 
         # Create new user
         try:
-            user = User.objects.create_user(email, password, first_name=firstName, last_name=lastName)
+            user = User.objects.create_user(username=email, password=password, first_name=firstName, last_name=lastName, email=email)
             user.save()
         except IntegrityError:
             messages.error(request,f"User with email {email} already exist.")
             return render(request, "invoice/register.html", {
                 "list": password_validation_list
             })
-        login(request, user)
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "invoice/register.html", {

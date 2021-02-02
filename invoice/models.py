@@ -10,8 +10,8 @@ class User(AbstractUser):
     pass
 
 # If sign-in from social account, make the username equal to email
+# Code snippet taken from https://stackoverflow.com/a/60722838
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
-
     def populate_user(self, request, sociallogin, data):
         user = super().populate_user(request, sociallogin, data)
         user.username = user.email
