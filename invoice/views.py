@@ -61,7 +61,7 @@ def logout_view(request):
 
 def register(request):
 
-    password_validation_list = password_validators_help_text_html(password_validators=None)
+    # password_validation_list = password_validators_help_text_html(password_validators=None)
 
     if request.method == "POST":
         
@@ -82,14 +82,14 @@ def register(request):
             error_message += "\n</ul>"
             messages.error(request,error_message)
             return render(request,"invoice/register.html",{
-                "list": password_validation_list
+                # "list": password_validation_list
             })
 
         # Ensure password match
         if password != confirmation:
             messages.error(request,"Passwords must match.")
             return render(request, "invoice/register.html", {
-                "list": password_validation_list
+                # "list": password_validation_list
             })
 
         # Create new user
@@ -99,14 +99,12 @@ def register(request):
         except IntegrityError:
             messages.error(request,f"User with email {email} already exist.")
             return render(request, "invoice/register.html", {
-                "list": password_validation_list
+                # "list": password_validation_list
             })
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "invoice/register.html", {
-            "list": password_validation_list
-        })
+        return render(request, "invoice/register.html", {})
 
 @login_required(login_url="login")
 def profile(request):

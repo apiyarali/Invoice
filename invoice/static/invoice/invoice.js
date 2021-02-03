@@ -8,6 +8,79 @@ document.addEventListener('DOMContentLoaded', function() {
         });    
     });
 
+    // Front end password chekcing.
+    // Code snippet taken from 
+    // https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_password_val
+
+    var myInput = document.getElementById("inputPassword");
+    var letter = document.getElementById("letter");
+    var capital = document.getElementById("capital");
+    var number = document.getElementById("number");
+    var length = document.getElementById("length");
+    var special = document.getElementById("special");
+
+    // When the user clicks on the password field, show the message box
+    myInput.onfocus = function() {
+        document.getElementById("pwdMsg").style.display = "block";
+    }
+
+    // When the user clicks outside of the password field, hide the message box
+    myInput.onblur = function() {
+        document.getElementById("pwdMsg").style.display = "none";
+    }
+
+    // When the user starts to type something inside the password field
+    myInput.onkeyup = function() {
+
+        // Validate lowercase letters
+        var lowerCaseLetters = /[a-z]/g;
+        if(myInput.value.match(lowerCaseLetters)) {  
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+        } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+        }
+        
+        // Validate capital letters
+        var upperCaseLetters = /[A-Z]/g;
+        if(myInput.value.match(upperCaseLetters)) {  
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+        } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+        }
+    
+        // Validate numbers
+        var numbers = /[0-9]/g;
+        if(myInput.value.match(numbers)) {  
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+        
+        // Validate length
+        if(myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+
+        // Validate Special Characters
+        var specialChar = /[!@#$%^&*()]/g;
+        if(myInput.value.match(specialChar)) {  
+            special.classList.remove("invalid");
+            special.classList.add("valid");
+        } else {
+            special.classList.remove("valid");
+            special.classList.add("invalid");
+        }
+    }
 });
 
 // Code snippet for getting CSRF token taken from:
@@ -28,6 +101,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// Save Invoice API
 function saveInvoice(event){
     event.preventDefault();
 
@@ -80,7 +154,7 @@ function saveInvoice(event){
     })
 }
 
-
+// Line items and invoice total calculations
 let invTotal = 0;  
 
 function lineItems(event){
@@ -147,7 +221,7 @@ function lineItems(event){
     productQty.value=""
 }
 
-// Adding product function
+// Adding product API
 function addProduct(event){
     event.preventDefault();
 
@@ -243,5 +317,31 @@ function customerSearch() {
         } else {
             col[i].style.display = 'none';
         }
+    }
+}
+
+// Show Password
+// Code snippet taken from:
+// https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_toggle_password
+
+function showPassRegister1(event) {
+    event.preventDefault();
+
+    var x = document.getElementById("inputPassword");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+
+function showPassRegister2(event) {
+    event.preventDefault();
+
+    var x = document.getElementById("inputPassword2");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
     }
 }

@@ -34,17 +34,47 @@
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword" name="password" 
-                        placeholder="Password">
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="inputPassword" name="password" 
+                            placeholder="Password", 
+                            title = "Your password can’t be too similar to your other personal information and 
+                            Your password can't be a commonly used password.">
+                        <div class="input-group-append">
+                            <span class="input-group-btn">
+                                <button class="btn btn-outline-secondary", onclick="showPassRegister1(event)">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
                     <br>
-                    {{list}}
+                    <!-- Front end password chekcing.
+                    Code snippet taken from 
+                    https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_password_val -->
+                    <div id="pwdMsg">
+                        <h6>Password must contain the following:</h6>
+                        <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                        <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                        <p id="number" class="invalid">A <b>number</b></p>
+                        <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                        <p id="special" class="invalid">A <b>Speical <i>!@#$%^&*()</i> character</b></p>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="inputPassword2" class="col-sm-2 col-form-label">Confirm Password</label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword2" name="confirmation" 
-                        placeholder="Confirm Password">
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="inputPassword2" name="confirmation" 
+                            placeholder="Confirm Password">
+                        <div class="input-group-append">
+                            <span class="input-group-btn">
+                                <button class="btn btn-outline-secondary", onclick="showPassRegister2(event)">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <input class="btn btn-primary" type="submit" value="Register">

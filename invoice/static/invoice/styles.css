@@ -22,6 +22,44 @@ input[name="product"] {
     border: 1px solid #ced4da !important;
 }
 
-/* Google Log-in button code snippet taken from  
-https://www.w3schools.com/howto/howto_css_social_login.asp
-*/
+/* Front end password chekcing.
+Code snippet taken from 
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_password_val */
+
+/* The message box is shown when the user clicks on the password field */
+#pwdMsg {
+    display:none;
+    background: #f1f1f1;
+    color: #000;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+#pwdMsg p {
+    padding: 10px 35px;
+    font-size: 18px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+    color: green;
+}
+  
+.valid:before {
+    position: relative;
+    left: -35px;
+    content: "✔";
+}
+  
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+    color: red;
+}
+  
+.invalid:before {
+    position: relative;
+    left: -35px;
+    content: "✖";
+}
+  
