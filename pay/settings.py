@@ -49,7 +49,11 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
     # django_countries
-    'django_countries'
+    'django_countries',
+
+    # django humanize 
+    # (for displaying numbers in proper currancy format)
+    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [

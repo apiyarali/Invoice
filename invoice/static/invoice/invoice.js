@@ -8,6 +8,36 @@ document.addEventListener('DOMContentLoaded', function() {
         });    
     });
 
+    /* ///////////////////
+    // Toggle Password //
+    */ //////////////////
+
+    // Toggle Password 1
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#inputPassword');
+
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+
+    // Toggle Password 2
+    const togglePassword2 = document.querySelector('#togglePassword2');
+    const password2 = document.querySelector('#inputPassword2');
+
+    togglePassword2.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password2.getAttribute('type') === 'password' ? 'text' : 'password';
+        password2.setAttribute('type', type);
+
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+
     // Front end password chekcing.
     // Code snippet taken from 
     // https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_password_val
@@ -260,6 +290,9 @@ function addProduct(event){
     .then(response => response.json())
     .then(result => {
         if (result.success){
+
+            numFormat = new Intl.NumberFormat('en-US');
+
             const tr = document.createElement('tr');
 
             const tdName = document.createElement('td');
@@ -271,7 +304,8 @@ function addProduct(event){
             tr.append(tdDescription);
 
             const tdAmount = document.createElement('td');
-            tdAmount.innerText = productAmountInput.value;
+            val = numFormat.format(productAmountInput.value);
+            tdAmount.innerText = val;
             tr.append(tdAmount);
 
             tableBody.append(tr);
@@ -317,31 +351,5 @@ function customerSearch() {
         } else {
             col[i].style.display = 'none';
         }
-    }
-}
-
-// Show Password
-// Code snippet taken from:
-// https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_toggle_password
-
-function showPassRegister1(event) {
-    event.preventDefault();
-
-    var x = document.getElementById("inputPassword");
-    if (x.type === "password") {
-        x.type = "text";
-    } else {
-        x.type = "password";
-    }
-}
-
-function showPassRegister2(event) {
-    event.preventDefault();
-
-    var x = document.getElementById("inputPassword2");
-    if (x.type === "password") {
-        x.type = "text";
-    } else {
-        x.type = "password";
     }
 }

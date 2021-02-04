@@ -2,7 +2,7 @@
 
 
 {% block body %}
-    
+    {% load humanize %}
     <div class="container">
 
         <div id="product-message", class="alert alert-danger" role="alert" style="display:none;"></div>
@@ -19,7 +19,7 @@
                     <input id="product-description" name="product-description" type="text" class="form-control" placeholder="Description">
                 </div>
                 <div class="col-lg-2 mt-2">
-                    <input id="product-amount" name="product-amount" type="number" step="0.25" class="form-control" placeholder="0.00">
+                    <input id="product-amount" name="product-amount" type="number" step="0.01" class="form-control" placeholder="0.00">
                 </div>
                 <div class="col-lg mt-2">
                     <input type="submit" class="btn btn-primary" value="Add">
@@ -44,7 +44,7 @@
                         <tr>
                             <td>{{ product.productName }}</td>
                             <td>{{ product.productDescription }}</td>
-                            <td>{{ product.rate }}</td>
+                            <td>{{ product.rate|floatformat:2|intcomma }}</td>
                         </tr>
                     {% endfor %}
                 </tbody >
