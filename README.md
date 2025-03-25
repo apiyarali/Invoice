@@ -43,4 +43,5 @@ Before running the app:
 
 ### Screenshots
 
+** Dashboard **
 ![Invoice App Dashboard](Screenshots/invoice_dashboard.jpg "Invoice App")
