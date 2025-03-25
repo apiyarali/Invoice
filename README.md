@@ -65,4 +65,4 @@ Before running the app:
 ![Invoice App User Registraton](Screenshots/invoice_register.jpg "Invoice App User Registraton")
 
 **Login**
-![Invoice App Login](Screenshots/invoice_login.jpg "Invoice App")
+![Invoice App Login](Screenshots/invoice_login.jpg "Invoice App Login")
