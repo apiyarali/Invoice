@@ -43,5 +43,26 @@ Before running the app:
 
 ### Screenshots
 
-** Dashboard **
-![Invoice App Dashboard](Screenshots/invoice_dashboard.jpg "Invoice App")
+**Dashboard**
+![Invoice App Dashboard](Screenshots/invoice_dashboard.jpg "Invoice App Dashboard")
+
+**Company Profile**
+![Invoice App Company Profile](Screenshots/invoice_company_profile.jpg "Invoice App Company Profile")
+
+**Invoice**
+![Invoice App Invoice](Screenshots/invoice.jpg "Invoice App Invoice")
+
+**Customer**
+![Invoice App Customer](Screenshots/invoice_customer.jpg "Invoice App Customer")
+
+**Add Customer**
+![Invoice App Add Customer](Screenshots/invoice_add_customer.jpg "Invoice App Add Customer")
+
+**Product**
+![Invoice App Product](Screenshots/invoice_product.jpg "Invoice App Product")
+
+**User Registraton**
+![Invoice App User Registraton](Screenshots/invoice_register.jpg "Invoice App User Registraton")
+
+**Login**
+![Invoice App Login](Screenshots/invoice_login.jpg "Invoice App")
