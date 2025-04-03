@@ -4,7 +4,7 @@
 
 ## Description
 
-This Python (Django framework) is for generating invoices for customers along with a product database and client database.
+This web app built in Python (Django framework) is for generating invoices for customers along with a product database and client database.
 
 Users can add their own profile and client profile which will show on the invoice.
 
